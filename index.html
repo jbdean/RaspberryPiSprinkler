@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Weather Underground</title>
+<script type="text/javascript">
+//<![CDATA[
+var WU_API_KEY = '5eb05f6d3daf8e17';
+var weather = new XMLHttpRequest();
+weather.onreadystatechange=function() {
+  if (weather.readyState==4 && weather.status==200) {
+    var data = JSON.parse(weather.responseText); 
+    console.log(data);
+    document.getElementById("observation_time").innerHTML=data.current_observation.observation_time;
+    document.getElementById("current_city").innerHTML=data.current_observation.display_location.full;
+    document.getElementById("current_weather").innerHTML=data.current_observation.weather;
+    document.getElementById("current_temp").innerHTML=data.current_observation.temp_f+'° F ('+data.current_observation.temp_c+'° C)';
+    //document.getElementById("current_temp").innerHTML=data.current_observation.temperature_string+'°';
+    document.getElementById("current_wind").innerHTML=data.current_observation.wind_string;
+    document.getElementById("current_precip").innerHTML=data.current_observation.precip_1hr_string;
+    document.getElementById("today_precip").innerHTML=data.current_observation.precip_today_string;
+    //document.getElementById("weather_icon").innerHTML=' src=\"http://icons.wxug.com/i/c/k/clear.gif\"'
+    document.getElementById("weather_icon").innerHTML='<img src="'+data.current_observation.icon_url+'"/>';  
+//	html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' mph</li></ul>';
+//<span id="weather_icon"></span>
+//<img src="http://icons.wxug.com/i/c/k/clear.gif"/>
+
+  }
+}
+weather.open("GET", "http://api.wunderground.com/api/"+WU_API_KEY+"/conditions/q/CA/Tracy.json", true);
+weather.send();
+//]]>
+</script>
+</head>
+<body bgcolor="#6cb6ff">
+<h1>Weather Underground Report</h1> 
+<h2>Observation <span id="observation_time"></span></h2>
+<br>
+<br>
+
+<img id="weather_icon"/>
+<br>
+<label class="switch">
+  <input type="checkbox" class="checkbox" />
+  <div class=""></div>
+</label>
+
+<label class="switch">
+  <input type="checkbox" class="checkbox" />
+  <div class=""></div>
+</label>
+<A HREF=EF="cgi-bin/test.pl"><button>Zone 1</button></A>
+<br>
+<br>
+<h3>Weather for <span id="current_city">(loading)</span> is 
+<span id="current_weather">(loading)</span>
+<br>
+Temperature is <span id="current_temp">(loading)</span> 
+<br>
+Wind is <span id="current_wind">(loading)</span> 
+<br>
+Rainfall  is <span id="current_precip">(loading)</span> 
+<br>
+Expected Rainfall Today is <span id="today_precip">(loading)</span> 
+<br>
+</h3>
+
+<img src="http://icons.wxug.com/graphics/wu2/logo_130x80.png" alt="Weather Underground" />
+<br>
+  <a href="http://www.wunderground.com/US/CA/Tracy.html"/>forecast</a>
+<br>
+  <a href="http://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=KCATRACY5"/>history</a>
+<br>
+  <a href="http://www.wunderground.com/cgi-bin/findweather/getForecast?query=37.732597,-121.440559"/>observation</a>
+
+</body>
+</html>
